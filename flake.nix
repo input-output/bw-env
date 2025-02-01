@@ -5,6 +5,7 @@
     { ... }:
     let
       assertMsg = pred: msg: pred || builtins.throw msg;
+      concatLines = builtins.concatStringsSep "\n";
     in
     {
       overlays.default = final: prev: {
@@ -35,7 +36,7 @@
               in
               ''
                 item="$(bw get item '${itemName}')"
-                ${vars}
+                ${concatLines vars}
               ''
             ) itemNames;
           in
@@ -54,7 +55,7 @@
               fi
 
               JQ_FIELD_SCRIPT='.fields | map(select(.name == $name))[0].value'
-              ${exports}
+              ${concatLines exports}
 
               terraform "$@"
             '';

@@ -23,7 +23,7 @@
                     var = item.${varName};
                     script =
                       if var == "login.password" || var == "login.username" then
-                        "jq -r '${var}'"
+                        "jq -r '.${var}'"
                       else
                         "jq -r --arg name '${var}' \"$JQ_FIELD_SCRIPT\"";
                   in

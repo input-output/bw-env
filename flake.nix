@@ -16,25 +16,22 @@
               itemName:
               let
                 item = items.${itemName};
-                tfVarNames = builtins.attrNames item;
+                varNames = builtins.attrNames item;
                 vars = builtins.map (
-                  tfVarName:
+                  varName:
                   let
-                    var = item.${tfVarName};
-                    exportVarName = "TF_VAR_${tfVarName}";
+                    var = item.${varName};
                     script =
                       if var == "login.password" || var == "login.username" then
                         "jq -r '${var}'"
                       else
                         "jq -r --arg name '${var}' \"$JQ_FIELD_SCRIPT\"";
                   in
-                  assert assertMsg (
-                    builtins.match "^[a-zA-Z0-9_]+$" != null
-                  ) "Invalid terraform variable name: ${tfVarName}";
+                  assert assertMsg (builtins.match "^[a-zA-Z0-9_]+$" != null) "Invalid variable name: ${varName}";
                   ''
-                    export ${exportVarName}="$(${script} <<< "$item")";
+                    export ${varName}="$(${script} <<< "$item")";
                   ''
-                ) tfVarNames;
+                ) varNames;
               in
               ''
                 item="$(bw get item '${itemName}')"

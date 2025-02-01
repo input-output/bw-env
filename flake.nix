@@ -39,12 +39,12 @@
               ''
             ) itemNames;
           in
-          final.writeShellApplication {
+          prev.writeShellApplication {
             name = "bw-terraform";
             runtimeInputs = [
-              final.jq
-              final.terraform
-              final.bitwarden-cli
+              prev.jq
+              prev.terraform
+              prev.bitwarden-cli
             ];
             text = ''
               if [ -z "$BW_SESSION" ]; then

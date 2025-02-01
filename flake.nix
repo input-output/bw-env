@@ -1,6 +1,6 @@
 {
   description = "Flake used to define terraform helper binary that can read variables from bitwarden";
-
+  inputs = { };
   outputs =
     { ... }:
     let

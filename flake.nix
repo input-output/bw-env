@@ -32,6 +32,10 @@
                   assert assertMsg (builtins.match "^[a-zA-Z0-9_]+$" != null) "Invalid variable name: ${varName}";
                   ''
                     ${varName}="$(${script} <<< "$item")"
+                    if [[ "''$${varName}" == "null" ]]; then
+                      echo "Could not read ${varName} from ${itemName}" 1>&2
+                      exit 1
+                    fi
                     export ${varName}
                   ''
                 ) varNames;

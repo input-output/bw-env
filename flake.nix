@@ -9,6 +9,7 @@
         mkBwEnv =
           {
             items,
+            name ? "bw-env",
             exe,
           }:
           let
@@ -42,7 +43,7 @@
             ) itemNames;
           in
           final.writeShellApplication {
-            name = "bw-env";
+            inherit name;
             runtimeInputs = [
               final.jq
               (final.callPackage ./bitwarden-cli.nix { })

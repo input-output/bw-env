@@ -1,15 +1,15 @@
 {
-  description = "Flake used to define terraform helper binary that can read variables from bitwarden";
+  description = "Flake used to create shell script that can assign bitwarden secrets to env variables";
   outputs =
     { ... }:
     let
       assertMsg = pred: msg: pred || builtins.throw msg;
       concatLines = builtins.concatStringsSep "\n";
       overlay = final: prev: {
-        mkBwTerraform =
+        mkBwEnv =
           {
             items,
-            package ? final.terraform,
+            exe,
           }:
           let
             itemNames = builtins.attrNames items;
@@ -42,11 +42,10 @@
             ) itemNames;
           in
           final.writeShellApplication {
-            name = "bw-terraform";
+            name = "bw-env";
             runtimeInputs = [
               final.jq
-              package
-              (final.callPackage ./bitwarden-cli.nix {})
+              (final.callPackage ./bitwarden-cli.nix { })
             ];
             text = ''
               if [ -z "''${BW_SESSION+x}" ]; then
@@ -58,7 +57,7 @@
               JQ_FIELD_SCRIPT='.fields | map(select(.name == $'"name))[0].value"
               ${concatLines exports}
 
-              terraform "$@"
+              exec "${exe}" "$@"
             '';
           };
       };

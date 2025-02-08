@@ -55,7 +55,7 @@
             text = ''
               if [ -z "''${BW_SESSION+x}" ]; then
               	BW_SESSION="$(bw unlock --raw)"
-              	echo "Bitwarden session (export as BW_SESSION to avoid repeating entries): $BW_SESSION"
+              	echo "Bitwarden session (export as BW_SESSION to avoid repeating entries): $BW_SESSION" 1>&2
               	export BW_SESSION
               fi
 

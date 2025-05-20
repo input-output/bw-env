@@ -50,7 +50,10 @@
             inherit name;
             runtimeInputs = [
               final.jq
-              (final.callPackage ./bitwarden-cli.nix { })
+              (prev.bitwarden-cli.overrideAttrs (oldAttrs: {
+                nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ prev.llvmPackages_18.stdenv.cc ];
+                stdenv = prev.llvmPackages_18.stdenv;
+              }))
             ];
             text = ''
               if [ "''${DEBUG:-0}" == "1" ]; then

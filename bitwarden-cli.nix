@@ -2,7 +2,7 @@
   lib,
   stdenv,
   buildNpmPackage,
-  nodejs_18,
+  nodejs_22,
   fetchFromGitHub,
   python3,
   darwin,
@@ -20,7 +20,7 @@ buildNpmPackage rec {
     hash = "sha256-JBEP4dNGL4rYKl2qNyhB2y/wZunikaGFltGVXLxgMWI=";
   };
 
-  nodejs = nodejs_18;
+  nodejs = nodejs_22;
 
   npmDepsHash = "sha256-vNudSHIMmF7oXGz+ZymQahyHebs/CBDc6Oy1g0A5nqA=";
 
